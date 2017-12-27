@@ -159,7 +159,7 @@ private:
 	// WioLTE
 
 private:
-#if defined WIOLTE_TYPE_JP_V11
+#if defined WIO_LTE_SCHEMATIC_A
 	static const int MODULE_PWR_PIN = 18;		// PB2
 	static const int ANT_PWR_PIN = 28;			// PB12
 	static const int ENABLE_VCCB_PIN = 26;		// PB10    
@@ -177,7 +177,7 @@ private:
 
 	static const int RGB_LED_PIN = 17;			// PB1
 
-#elif defined WIOLTE_TYPE_JP_V12
+#elif defined WIO_LTE_SCHEMATIC_B
 	static const int MODULE_PWR_PIN = 21;		// PB5
 	static const int ANT_PWR_PIN = 28;			// PB12
 	static const int ENABLE_VCCB_PIN = 26;		// PB10
@@ -248,9 +248,12 @@ public:
 	void PowerSupplyGrove(bool on);
 	bool IsBusy() const;
 	bool TurnOnOrReset();
+	bool TurnOff();
 	void Sleep();
 	bool Wakeup();
 
+	int GetIMEI(char* imei, int imeiSize);
+	int GetIMSI(char* imsi, int imsiSize);
 	int GetPhoneNumber(char* number, int numberSize);
 	int GetReceivedSignalStrength();
 	bool GetTime(struct tm* tim);
@@ -267,6 +270,7 @@ public:
 	bool Activate(const char* accessPointName, const char* userName, const char* password);
 
 	bool SyncTime(const char* host);
+	bool GetLocation(double* longitude, double* latitude);
 
 	int SocketOpen(const char* host, int port, SocketType type);
 	bool SocketSend(int connectId, const byte* data, int dataSize);

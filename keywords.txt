@@ -7,9 +7,12 @@ PowerSupplyGNSS				KEYWORD2
 PowerSupplyGrove			KEYWORD2
 IsBusy						KEYWORD2
 TurnOnOrReset				KEYWORD2
+TurnOff						KEYWORD2
 Sleep						KEYWORD2
 Wakeup						KEYWORD2
 
+GetIMEI						KEYWORD2
+GetIMSI						KEYWORD2
 GetPhoneNumber				KEYWORD2
 GetReceivedSignalStrength	KEYWORD2
 GetTime						KEYWORD2
@@ -36,6 +39,10 @@ WIOLTE_D38					LITERAL1
 WIOLTE_D39					LITERAL1
 WIOLTE_D20					LITERAL1
 WIOLTE_D19					LITERAL1
+WIOLTE_A6					LITERAL1
+WIOLTE_A7					LITERAL1
+WIOLTE_A4					LITERAL1
+WIOLTE_A5					LITERAL1
 
 WioLTEDac					KEYWORD1
 Write                       KEYWORD2
