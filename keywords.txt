@@ -5,6 +5,7 @@ LedSetRGB					KEYWORD2
 PowerSupplyLTE				KEYWORD2
 PowerSupplyGNSS				KEYWORD2
 PowerSupplyGrove			KEYWORD2
+PowerSupplySD				KEYWORD2
 IsBusy						KEYWORD2
 TurnOnOrReset				KEYWORD2
 TurnOff						KEYWORD2
@@ -24,6 +25,7 @@ DeleteReceivedSMS			KEYWORD2
 Activate					KEYWORD2
 
 SyncTime					KEYWORD2
+GetLocation					KEYWORD2
 
 SocketOpen					KEYWORD2
 SocketSend					KEYWORD2

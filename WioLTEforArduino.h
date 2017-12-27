@@ -130,6 +130,7 @@ private:
 			WFR_START_WITH			= 0x02,
 			WFR_REMOVE_START_WITH	= 0x04,
 			WFR_GET_NULL_STRING		= 0x08,
+			WFR_TIMEOUT_FOR_BYTE	= 0x10,
 		};
 
 	public:
@@ -141,7 +142,7 @@ private:
 		void DiscardRead();
 		bool WaitForAvailable(Stopwatch* sw, long timeout) const;
 		int Read(byte* data, int dataSize);
-		const char* ReadResponse(const char* match = NULL);
+		const char* ReadResponse(const char* match, long timeout);
 
 	public:
 		void Init();
@@ -195,6 +196,7 @@ private:
 	static const int AP_READY_PIN = 33;			// PC1
 
 	static const int RGB_LED_PIN = 17;			// PB1
+	static const int SD_POWR_PIN = 15;			// PA15
 
 #else
 #error Unkown WioLTE type
@@ -246,6 +248,7 @@ public:
 	void PowerSupplyLTE(bool on);
 	void PowerSupplyGNSS(bool on);
 	void PowerSupplyGrove(bool on);
+	void PowerSupplySD(bool on);
 	bool IsBusy() const;
 	bool TurnOnOrReset();
 	bool TurnOff();
