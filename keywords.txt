@@ -1,12 +1,12 @@
 WioLTE						KEYWORD1
 
+GetLastError				KEYWORD2
 Init						KEYWORD2
 LedSetRGB					KEYWORD2
 PowerSupplyLTE				KEYWORD2
 PowerSupplyGNSS				KEYWORD2
 PowerSupplyGrove			KEYWORD2
 PowerSupplySD				KEYWORD2
-IsBusy						KEYWORD2
 TurnOnOrReset				KEYWORD2
 TurnOff						KEYWORD2
 Sleep						KEYWORD2
@@ -23,6 +23,7 @@ ReceiveSMS					KEYWORD2
 DeleteReceivedSMS			KEYWORD2
 
 Activate					KEYWORD2
+Deactivate					KEYWORD2
 
 SyncTime					KEYWORD2
 GetLocation					KEYWORD2
@@ -35,6 +36,8 @@ SocketClose					KEYWORD2
 HttpGet						KEYWORD2
 HttpPost					KEYWORD2
 
+SystemReset					KEYWORD2
+
 WIOLTE_TCP					LITERAL1
 WIOLTE_UDP					LITERAL1
 WIOLTE_D38					LITERAL1
@@ -45,6 +48,12 @@ WIOLTE_A6					LITERAL1
 WIOLTE_A7					LITERAL1
 WIOLTE_A4					LITERAL1
 WIOLTE_A5					LITERAL1
+
+E_OK						LITERAL1
+E_UNKNOWN					LITERAL1
+
+SOCKET_TCP					LITERAL1
+SOCKET_UDP					LITERAL1
 
 WioLTEDac					KEYWORD1
 Write                       KEYWORD2

@@ -1,7 +1,8 @@
 #include <WioLTEforArduino.h>
 #include <stdio.h>
 
-#define INTERVAL  (60000)
+#define INTERVAL        (60000)
+#define RECEIVE_TIMEOUT (10000)
 
 WioLTE Wio;
   
@@ -16,7 +17,7 @@ void setup() {
   
   SerialUSB.println("### Power supply ON.");
   Wio.PowerSupplyLTE(true);
-  delay(5000);
+  delay(500);
 
   SerialUSB.println("### Turn on or reset.");
   if (!Wio.TurnOnOrReset()) {
@@ -25,18 +26,20 @@ void setup() {
   }
 
   SerialUSB.println("### Connecting to \"soracom.io\".");
-  delay(5000);
   if (!Wio.Activate("soracom.io", "sora", "sora")) {
     SerialUSB.println("### ERROR! ###");
     return;
   }
+
+  SerialUSB.println("### Setup completed.");
 }
 
 void loop() {
   char data[100];
   
   SerialUSB.println("### Open.");
-  int connectId = Wio.SocketOpen("funnel.soracom.io", 23080, WIOLTE_UDP);
+  int connectId;
+  connectId = Wio.SocketOpen("funnel.soracom.io", 23080, WIOLTE_UDP);
   if (connectId < 0) {
     SerialUSB.println("### ERROR! ###");
     goto err;
@@ -49,22 +52,25 @@ void loop() {
   SerialUSB.println("");
   if (!Wio.SocketSend(connectId, data)) {
     SerialUSB.println("### ERROR! ###");
-    goto err;
+    goto err_close;
   }
   
   SerialUSB.println("### Receive.");
   int length;
-  do {
-    length = Wio.SocketReceive(connectId, data, sizeof (data));
-    if (length < 0) {
-      SerialUSB.println("### ERROR! ###");
-      goto err;
-    }
-  } while (length == 0);
+  length = Wio.SocketReceive(connectId, data, sizeof (data), RECEIVE_TIMEOUT);
+  if (length < 0) {
+    SerialUSB.println("### ERROR! ###");
+    goto err_close;
+  }
+  if (length == 0) {
+    SerialUSB.println("### RECEIVE TIMEOUT! ###");
+    goto err_close;
+  }
   SerialUSB.print("Receive:");
   SerialUSB.print(data);
   SerialUSB.println("");
 
+err_close:
   SerialUSB.println("### Close.");
   if (!Wio.SocketClose(connectId)) {
     SerialUSB.println("### ERROR! ###");

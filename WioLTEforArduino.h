@@ -159,8 +159,19 @@ private:
 	/////////////////////////////////////////////////////////////////////
 	// WioLTE
 
+public:
+	enum ErrorCodeType {
+		E_OK = 0,
+		E_UNKNOWN,
+	};
+
+	enum SocketType {
+		SOCKET_TCP,
+		SOCKET_UDP,
+	};
+
 private:
-#if defined WIO_LTE_SCHEMATIC_A
+#if defined WIOLTE_SCHEMATIC_A
 	static const int MODULE_PWR_PIN = 18;		// PB2
 	static const int ANT_PWR_PIN = 28;			// PB12
 	static const int ENABLE_VCCB_PIN = 26;		// PB10    
@@ -178,7 +189,7 @@ private:
 
 	static const int RGB_LED_PIN = 17;			// PB1
 
-#elif defined WIO_LTE_SCHEMATIC_B
+#elif defined WIOLTE_SCHEMATIC_B
 	static const int MODULE_PWR_PIN = 21;		// PB5
 	static const int ANT_PWR_PIN = 28;			// PB12
 	static const int ENABLE_VCCB_PIN = 26;		// PB10
@@ -223,17 +234,23 @@ public:
 private:
 	ModuleSerial _Module;
 	WS2812 _Led;
-
-public:
-	enum SocketType {
-		SOCKET_TCP,
-		SOCKET_UDP,
-	};
+	ErrorCodeType _LastErrorCode;
 
 private:
-	bool ErrorOccured(int lineNumber, bool value);
-	int ErrorOccured(int lineNumber, int value);
+	bool ReturnOk(bool value)
+	{
+		_LastErrorCode = E_OK;
+		return value;
+	}
+	int ReturnOk(int value)
+	{
+		_LastErrorCode = E_OK;
+		return value;
+	}
+	bool ReturnError(int lineNumber, bool value, ErrorCodeType errorCode);
+	int ReturnError(int lineNumber, int value, ErrorCodeType errorCode);
 
+	bool IsBusy() const;
 	bool Reset();
 	bool TurnOn();
 
@@ -243,16 +260,16 @@ private:
 
 public:
 	WioLTE();
+	ErrorCodeType GetLastError() const;
 	void Init();
 	void LedSetRGB(byte red, byte green, byte blue);
 	void PowerSupplyLTE(bool on);
 	void PowerSupplyGNSS(bool on);
 	void PowerSupplyGrove(bool on);
 	void PowerSupplySD(bool on);
-	bool IsBusy() const;
 	bool TurnOnOrReset();
 	bool TurnOff();
-	void Sleep();
+	bool Sleep();
 	bool Wakeup();
 
 	int GetIMEI(char* imei, int imeiSize);
@@ -271,6 +288,7 @@ public:
 	bool DeleteReceivedSMS();
 
 	bool Activate(const char* accessPointName, const char* userName, const char* password);
+	bool Deactivate();
 
 	bool SyncTime(const char* host);
 	bool GetLocation(double* longitude, double* latitude);
@@ -286,5 +304,8 @@ public:
 
 	int HttpGet(const char* url, char* data, int dataSize);
 	bool HttpPost(const char* url, const char* data, int* responseCode);
+
+public:
+	static void SystemReset();
 
 };
