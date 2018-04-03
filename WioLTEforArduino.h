@@ -5,6 +5,7 @@
 #include <Seeed_ws2812.h>
 #include <time.h>
 #include <vector>
+#include "future-promise.h"
 
 #define WIOLTE_TCP	(WioLTE::SOCKET_TCP)
 #define WIOLTE_UDP	(WioLTE::SOCKET_UDP)
@@ -15,8 +16,8 @@
 #define WIOLTE_D19	(WioLTE::D19)
 #define WIOLTE_A6	(WioLTE::A6)
 #define WIOLTE_A7	(WioLTE::A7)
-#define WIOLTE_A4	(WioLTE::A4)	// DAC1
-#define WIOLTE_A5	(WioLTE::A5)	// DAC2
+#define WIOLTE_A4	(WioLTE::A4)
+#define WIOLTE_A5	(WioLTE::A5)
 
 class WioLTEDac
 {

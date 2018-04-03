@@ -87,6 +87,7 @@
     <ClInclude Include="CMSIS\cmsis_gcc.h" />
     <ClInclude Include="CMSIS\core_cm4.h" />
     <ClInclude Include="config.h" />
+    <ClInclude Include="future-promise.h" />
     <ClInclude Include="WioLTEClient.h" />
     <ClInclude Include="WioLTEforArduino.h" />
   </ItemGroup>
