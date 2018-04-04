@@ -34,7 +34,13 @@ class synch_context
 public:
     virtual ~synch_context() {}
     virtual void post(const std::function<void()>& continuation) = 0;
+
+    static std::shared_ptr<synch_context> default_synch_context;
 };
+
+#define DECLARE_DEFAULE_SYNCH_CONTEXT(scPtr) \
+    static auto default_synch_context = scPtr; \
+    std::shared_ptr<synch_context> synch_context::default_synch_context = default_synch_context
 
 template <typename T> class future;
 template <typename T> class promise;
@@ -63,7 +69,7 @@ private:
     }
 
 private:
-    future_core * add_ref() const
+    future_core* add_ref() const
     {
         auto c = ++count_;
 #ifdef _DEBUG
@@ -159,18 +165,18 @@ private:
     future_core<T>* pFuture_;
 
     future(future_core<T>* pFuture)
-        :pFuture_(pFuture->add_ref())
+        : pFuture_(pFuture->add_ref())
     {
     }
 
     future(const T& value, const std::shared_ptr<synch_context>& scPtr)
-        :pFuture_(new future_core<T>(value, scPtr))
+        : pFuture_(new future_core<T>(value, scPtr))
     {
     }
 
 public:
     future()
-        :pFuture_(nullptr)
+        : pFuture_(nullptr)
     {
     }
 
@@ -208,7 +214,7 @@ public:
         return pFuture_->bind(binder);
     }
 
-    static future<T> result(const T& value, const std::shared_ptr<synch_context>& scPtr)
+    static future<T> result(const T& value, const std::shared_ptr<synch_context>& scPtr = synch_context::default_synch_context)
     {
         return future<T>(value, scPtr);
     }
@@ -220,7 +226,7 @@ private:
     future_core<T>* pFuture_;
 
 public:
-    explicit promise(const std::shared_ptr<synch_context>& scPtr)
+    promise(const std::shared_ptr<synch_context>& scPtr = synch_context::default_synch_context)
         : pFuture_(new future_core<T>(scPtr))
     {
     }
